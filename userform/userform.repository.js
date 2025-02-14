@@ -1,6 +1,11 @@
 const prisma = require("../db");
 
+
+const jenisAduan = ["pelayanan etik", "kode etik", "lain-lain", "saran/masukkan"]
 async function createUserForm(userForm) {
+  if (!jenisAduan.includes(userForm.jenis_aduan)) {
+    throw new Error("Jenis Aduan Tidak Valid");   
+  }
  
     const newForm = await prisma.userform.create({ // Pastikan userForm sesuai dengan nama model di Prisma
       data: {

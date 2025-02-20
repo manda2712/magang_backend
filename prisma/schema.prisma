@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      UserRole @default(ADMIN)
+  createdAt DateTime @default(now())
+}
+
+enum UserRole {
+  ADMIN
+}
+
+model Userform {
+  id                Int    @id @default(autoincrement())
+  email             String
+  nama_inisial      String
+  alamat            String
+  nomor_telepon     String
+  jenis_aduan       String
+  perihal           String
+  lokasi_kejadian   String
+  tanggal_kejadian DateTime
+  uraian_Pengaduan String
+  bukti_pendukung  String
+  nama_terlapor    String
+  nik_terlapor     String
+  Jabatan_terlapor String  
+}
+
+model Surform {
+  id                                        Int @id @default(autoincrement())
+  satuanKerja                               String
+  jenisKelamin                              JK
+  usia                                      Int
+  jabatan                                   Jabatan
+  pendidikan_terakhir                       String
+  layanan_utama_yang_diperoleh              Layanan
+  jenis_layanan                             Jenis
+  cara_mengakses_layanan_utama_yang_dinilai Akses
+  cara_memperoleh_layanan                   Perolehlayanan
+  sumber_informasi_layanan                  Sumberlayanan
+  frekuensi_menggunakan_layanan             Frekuensilayanan
+  surveiKepuasan                            SurveiKepuasan[]
+}
+
+enum JK {
+  perempuan
+  laki_laki
+}
+
+enum Jabatan{
+  eselonII
+  eselonIII
+  eselonIV
+  pejabat_fungsional
+  pelaksana
+  lainnya
+}
+
+enum Layanan {
+  kinerja_layanan_pencairan_dana
+  kinerja_layanan_bimbingan_konsultasi
+  kinerja_layanan_konfirmasi_surat_setoran
+  kinerja_layanan_rekonsiliasi_laporan_keuangan
+}
+
+enum Jenis{
+  kunjungan
+  layanan_dalam_laman_situsweb_aplikasi
+  telepon
+}
+
+enum Akses{
+  daring
+  luring
+  online_dan_offline
+}
+
+enum Perolehlayanan {
+  kunjungan
+  layanan_laman_website
+  telepon_atau_sms
+  korespondensi_surat_melalui_kurir
+  korespondensi_surat_elektronik
+  aplikasi
+}
+
+enum Sumberlayanan{
+  website
+  media_sosial
+  koran
+  surat_elektronik
+  mesin_pencari
+  sosialisasi
+  komunitas
+  aplikasi_kemenkeu
+}
+
+enum Frekuensilayanan{
+  SEDIKIT   // 1-3 kali
+  SEDANG    // 4-6 kali
+  SERING    // 7-12 kali
+  SANGAT_SERING // > 12 kali
+}
+
+model SurveiKepuasan {
+  id         Int       @id @default(autoincrement())
+  pertanyaan String
+  jawaban    Kepuasan
+  surformId  Int      // Foreign Key
+  surform    Surform  @relation(fields: [surformId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+enum Kepuasan {
+  SANGAT_TIDAK_PUAS
+  TIDAK_PUAS
+  NETRAL
+  PUAS
+  SANGAT_PUAS
+}
+
+
+
+
+

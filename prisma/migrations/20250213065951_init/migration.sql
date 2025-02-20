@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Userform" ALTER COLUMN "nomor_telepon" SET DATA TYPE TEXT,
+ALTER COLUMN "perihal" SET DATA TYPE TEXT,
+ALTER COLUMN "lokasi_kejadian" SET DATA TYPE TEXT;
